@@ -1,0 +1,51 @@
+<h1>
+  List of all people
+</h1>
+
+<hr>
+
+<article>
+  <header>
+    <h2>
+      Add a new person
+    </h2>
+  </header>
+
+  <form action="/insert_person" method="post">
+    <div>
+      <label for="names_box">
+        Names
+      </label>
+
+      <input type="text" id="names_box" name="query_names">
+    </div>
+
+    <div>
+      <label for="birthday_box">
+        Birthday
+      </label>
+
+      <input type="date" id="birthday_box" name="query_birthday">
+    </div>
+
+    <button type="submit">
+      Create person
+    </button>
+  </form>
+</article>
+
+<hr>
+
+<article>
+  <ul>
+    <% @list_of_people.each do |a_person| %>
+      <li>
+        <a href="/people/<%= a_person.id %>">
+          Person #<%= a_person.id %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+</article>
+
+<hr>

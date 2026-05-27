@@ -1,0 +1,91 @@
+<h1>
+  List of all gifts givens
+</h1>
+
+<hr>
+
+<article>
+  <header>
+    <h2>
+      Add a new gifts given
+    </h2>
+  </header>
+
+  <form action="/insert_gifts_given" method="post">
+    <div>
+      <label for="gift_box">
+        Gift
+      </label>
+
+      <input type="text" id="gift_box" name="query_gift">
+    </div>
+
+    <div>
+      <label for="people_id_box">
+        People
+      </label>
+
+      <input type="text" id="people_id_box" name="query_people_id">
+    </div>
+
+    <div>
+      <label for="liked_box">
+        Liked
+      </label>
+
+      <input type="text" id="liked_box" name="query_liked">
+    </div>
+
+    <div>
+      <label for="given_on_box">
+        Given on
+      </label>
+
+      <input type="date" id="given_on_box" name="query_given_on">
+    </div>
+
+    <div>
+      <label for="notes_box">
+        Notes
+      </label>
+
+      <input type="text" id="notes_box" name="query_notes">
+    </div>
+
+    <div>
+      <label for="occasion_box">
+        Occasion
+      </label>
+
+      <input type="text" id="occasion_box" name="query_occasion">
+    </div>
+
+    <div>
+      <label for="price_box">
+        Price
+      </label>
+
+      <input type="text" id="price_box" name="query_price">
+    </div>
+
+    <button type="submit">
+      Create gifts given
+    </button>
+  </form>
+</article>
+
+<hr>
+
+<article>
+  <ul>
+    <% @list_of_gifts_givens.each do |a_gifts_given| %>
+      <li>
+        <a href="/gifts_givens/<%= a_gifts_given.id %>">
+          Gifts given #<%= a_gifts_given.id %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+</article>
+
+<hr>

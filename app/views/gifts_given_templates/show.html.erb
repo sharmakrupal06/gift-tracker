@@ -1,0 +1,156 @@
+<h1>
+  Gifts given #<%= @the_gifts_given.id %> details
+</h1>
+
+<article>
+  <div>
+    <a href="/gifts_givens">
+      Go back
+    </a>
+  </div>
+
+  <div>
+    <a href="/delete_gifts_given/<%= @the_gifts_given.id %>">
+      Delete gifts given
+    </a>
+  </div>
+  <dl>
+    <dt>
+      Gift
+    </dt>
+    <dd>
+      <%= @the_gifts_given.gift %>
+    </dd>
+
+    <dt>
+      People
+    </dt>
+    <dd>
+      <%= @the_gifts_given.people_id %>
+    </dd>
+
+    <dt>
+      Liked
+    </dt>
+    <dd>
+      <%= @the_gifts_given.liked %>
+    </dd>
+
+    <dt>
+      Given on
+    </dt>
+    <dd>
+      <%= @the_gifts_given.given_on %>
+    </dd>
+
+    <dt>
+      Notes
+    </dt>
+    <dd>
+      <%= @the_gifts_given.notes %>
+    </dd>
+
+    <dt>
+      Occasion
+    </dt>
+    <dd>
+      <%= @the_gifts_given.occasion %>
+    </dd>
+
+    <dt>
+      Price
+    </dt>
+    <dd>
+      <%= @the_gifts_given.price %>
+    </dd>
+
+    <dt>
+      Created at
+    </dt>
+    <dd>
+      <%= time_ago_in_words(@the_gifts_given.created_at) %> ago
+    </dd>
+
+    <dt>
+      Updated at
+    </dt>
+    <dd>
+      <%= time_ago_in_words(@the_gifts_given.updated_at) %> ago
+    </dd>
+  </dl>
+</article>
+
+<hr>
+
+
+<article>
+  <header>
+    <h2>
+      Edit gifts given
+    </h2>
+  </header>
+
+  <form action="/modify_gifts_given/<%= @the_gifts_given.id %>"  method="post" >
+    <div>
+      <label for="gift_box">
+        Gift
+      </label>
+
+      <input type="text" id="gift_box" name="query_gift" value="<%= @the_gifts_given.gift %>">
+    </div>
+
+    <div>
+      <label for="people_id_box">
+        People
+      </label>
+
+      <input type="text" id="people_id_box" name="query_people_id" value="<%= @the_gifts_given.people_id %>">
+    </div>
+
+    <div>
+      <label for="liked_box">
+        Liked
+      </label>
+
+      <input type="text" id="liked_box" name="query_liked" value="<%= @the_gifts_given.liked %>">
+    </div>
+
+    <div>
+      <label for="given_on_box">
+        Given on
+      </label>
+
+      <input type="date" id="given_on_box" name="query_given_on" value="<%= @the_gifts_given.given_on %>">
+    </div>
+
+    <div>
+      <label for="notes_box">
+        Notes
+      </label>
+
+      <input type="text" id="notes_box" name="query_notes" value="<%= @the_gifts_given.notes %>">
+    </div>
+
+    <div>
+      <label for="occasion_box">
+        Occasion
+      </label>
+
+      <input type="text" id="occasion_box" name="query_occasion" value="<%= @the_gifts_given.occasion %>">
+    </div>
+
+    <div>
+      <label for="price_box">
+        Price
+      </label>
+
+      <input type="text" id="price_box" name="query_price" value="<%= @the_gifts_given.price %>">
+    </div>
+
+    <button type="submit">
+      Update gifts given
+    </button>
+  </form>
+</article>
+
+<hr>
