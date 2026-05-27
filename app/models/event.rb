@@ -20,4 +20,9 @@
 #
 class Event < ApplicationRecord
   belongs_to :person
+
+  def next_occurrence
+    occurrence = date.change(year: Date.today.year)
+    occurrence < Date.today ? occurrence.next_year : occurrence
+  end
 end

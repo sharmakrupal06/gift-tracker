@@ -1,66 +1,51 @@
-<h1>List of all gifts given</h1>
+<div style="max-width: 680px; margin: 0 auto;">
+  <div style="margin-bottom: 1.5rem;">
+    <h1 style="margin-bottom: 0.25rem;">🎁 Add a Gift</h1>
+    <a href="/people/<%= params[:person_id] %>" style="font-size: 0.9rem;">← Back to person</a>
+  </div>
 
-<hr>
+  <article>
+    <form action="/people/<%= params[:person_id] %>/gifts_givens" method="post">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 
-<article>
-  <header>
-    <h2>Add a new gift</h2>
-  </header>
+      <div class="form-row">
+        <div>
+          <label for="gift_box">Gift Name</label>
+          <input type="text" id="gift_box" name="query_gift" placeholder="e.g. Leather wallet" autofocus>
+        </div>
+        <div>
+          <label for="occasion_box">Occasion <span style="color: var(--pico-muted-color); font-size: 0.85rem;">(optional)</span></label>
+          <input type="text" id="occasion_box" name="query_occasion" placeholder="e.g. Birthday, Christmas">
+        </div>
+      </div>
 
-  <form action="/people/<%= params[:person_id] %>/gifts_givens" method="post">
-    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <div class="form-row">
+        <div>
+          <label for="given_on_box">Given On</label>
+          <input type="date" id="given_on_box" name="query_given_on">
+        </div>
+        <div>
+          <label for="price_box">Price <span style="color: var(--pico-muted-color); font-size: 0.85rem;">(optional)</span></label>
+          <input type="number" id="price_box" name="query_price" placeholder="e.g. 49.99">
+        </div>
+      </div>
 
-    <div>
-      <label for="gift_box">Gift</label>
-      <input type="text" id="gift_box" name="query_gift">
-    </div>
+      <div>
+        <label for="url_box">Link <span style="color: var(--pico-muted-color); font-size: 0.85rem;">(optional)</span></label>
+        <input type="text" id="url_box" name="query_url" placeholder="e.g. https://amazon.com/...">
+      </div>
 
-    <div>
-      <label for="liked_box">Liked?</label>
-      <input type="checkbox" id="liked_box" name="query_liked" value="true">
-    </div>
+      <div>
+        <label for="notes_box">Notes <span style="color: var(--pico-muted-color); font-size: 0.85rem;">(optional)</span></label>
+        <input type="text" id="notes_box" name="query_notes" placeholder="e.g. Engraved with initials">
+      </div>
 
-    <div>
-      <label for="given_on_box">Given on</label>
-      <input type="date" id="given_on_box" name="query_given_on">
-    </div>
+      <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+        <input type="checkbox" id="liked_box" name="query_liked" value="true" role="switch">
+        <label for="liked_box" style="margin: 0;">They liked it 👍</label>
+      </div>
 
-    <div>
-      <label for="notes_box">Notes</label>
-      <input type="text" id="notes_box" name="query_notes">
-    </div>
-
-    <div>
-      <label for="occasion_box">Occasion</label>
-      <input type="text" id="occasion_box" name="query_occasion">
-    </div>
-
-    <div>
-      <label for="price_box">Price</label>
-      <input type="number" id="price_box" name="query_price">
-    </div>
-
-    <div>
-      <label for="url_box">Link (optional)</label>
-      <input type="text" id="url_box" name="query_url" placeholder="e.g. https://amazon.com/...">
-    </div>
-
-    <button type="submit">Create gift</button>
-  </form>
-</article>
-
-<hr>
-
-<article>
-  <ul>
-    <% @list_of_gifts_givens.each do |a_gifts_given| %>
-      <li>
-        <a href="/people/<%= a_gifts_given.person_id %>/gifts_givens/<%= a_gifts_given.id %>">
-          <%= a_gifts_given.gift %> — <%= a_gifts_given.given_on %>
-        </a>
-      </li>
-    <% end %>
-  </ul>
-</article>
-
-<hr>
+      <button type="submit" style="width: 100%;">Save Gift</button>
+    </form>
+  </article>
+</div>

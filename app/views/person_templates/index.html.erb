@@ -1,23 +1,58 @@
 <h1>🎂 Birthday Tracker</h1>
 
-<%# Display 1: Upcoming Birthdays %>
-<h2>🎉 Upcoming Birthdays</h2>
+<%# Display 1: Upcoming in Next 30 Days %>
+<h2>🎉 Coming Up in the Next 30 Days</h2>
 <article>
-  <% upcoming = @list_of_people.select { |p| (p.next_birthday - Date.today).to_i <= 30 } %>
-  <% if upcoming.empty? %>
-    <p style="color: var(--pico-muted-color);">🎈 No upcoming birthdays in the next 30 days — enjoy the break!</p>
+  <%
+    upcoming_items = []
+
+    @list_of_people.each do |person|
+      days = (person.next_birthday - Date.today).to_i
+      if days <= 30
+        upcoming_items << {
+          type: :birthday,
+          person: person,
+          label: "#{person.name}'s Birthday",
+          date: person.birthday.strftime("%B %d"),
+          days: days
+        }
+      end
+
+      person.events.each do |event|
+        days = (event.next_occurrence - Date.today).to_i
+        if days <= 30
+          upcoming_items << {
+            type: :event,
+            person: person,
+            label: "#{person.name} — #{event.event_type}",
+            date: event.date.strftime("%B %d"),
+            days: days,
+            note: event.note
+          }
+        end
+      end
+    end
+
+    upcoming_items.sort_by! { |item| item[:days] }
+  %>
+
+  <% if upcoming_items.empty? %>
+    <p style="color: var(--pico-muted-color);">🎈 Nothing coming up in the next 30 days — enjoy the break!</p>
   <% else %>
-    <% upcoming.each do |a_person| %>
-      <% days_until = (a_person.next_birthday - Date.today).to_i %>
+    <% upcoming_items.each do |item| %>
       <div class="birthday-card">
-        <a href="/people/<%= a_person.id %>">
-          <%= a_person.name %>
-          <span class="person-meta"> — <%= a_person.birthday.strftime("%B %d") %></span>
+        <a href="/people/<%= item[:person].id %>">
+          <%= item[:type] == :birthday ? "🎂" : "📅" %>
+          <%= item[:label] %>
+          <span class="person-meta"> — <%= item[:date] %></span>
+          <% if item[:note].present? %>
+            <span class="person-meta"> · <em><%= item[:note] %></em></span>
+          <% end %>
         </a>
-        <% if days_until == 0 %>
+        <% if item[:days] == 0 %>
           <span class="days-badge today">🎉 Today!</span>
         <% else %>
-          <span class="days-badge">⏰ <%= days_until %> days</span>
+          <span class="days-badge">⏰ <%= item[:days] %> days</span>
         <% end %>
       </div>
     <% end %>
@@ -30,7 +65,7 @@
 <h2>👥 All People</h2>
 
 <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
-  <a href="/people?sort=date" role="button" <%= "class='outline'" if params[:sort] == "date" || params[:sort].blank? ? false : true %>>
+  <a href="/people?sort=date" role="button" class="<%= params[:sort] == 'age' ? 'outline' : '' %>">
     📅 Sort by Date (Jan–Dec)
   </a>
   <a href="/people?sort=age" role="button" class="<%= params[:sort] == 'age' ? '' : 'outline' %>">

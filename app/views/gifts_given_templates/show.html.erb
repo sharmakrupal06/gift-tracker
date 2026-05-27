@@ -1,107 +1,98 @@
-<h1>Gift: <%= @the_gifts_given.gift %></h1>
-
-<article>
-  <div>
-    <a href="/people/<%= @the_gifts_given.person_id %>">← Go back to person</a>
+<div style="max-width: 680px; margin: 0 auto;">
+  <div class="profile-header">
+    <div>
+      <h1 style="margin-bottom: 0.25rem;">🎁 <%= @the_gifts_given.gift %></h1>
+      <a href="/people/<%= @the_gifts_given.person_id %>" style="font-size: 0.9rem;">← Back to <%= @the_gifts_given.person.name %></a>
+    </div>
+    <form action="/people/<%= @the_gifts_given.person_id %>/gifts_givens/<%= @the_gifts_given.id %>" method="post" style="margin:0;">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <input type="hidden" name="_method" value="delete">
+      <button type="submit" class="outline" style="color: #e63946; border-color: #e63946; font-size: 0.85rem; padding: 0.4rem 0.8rem;">🗑 Delete</button>
+    </form>
   </div>
 
-  <dl>
-    <dt>Gift</dt>
-    <dd><%= @the_gifts_given.gift %></dd>
+  <article>
+    <dl class="profile-dl">
+      <dt>Given To</dt>
+      <dd><a href="/people/<%= @the_gifts_given.person_id %>"><%= @the_gifts_given.person.name %></a></dd>
 
-    <dt>Given to</dt>
-    <dd>
-      <a href="/people/<%= @the_gifts_given.person_id %>">
-        <%= @the_gifts_given.person.name %>
-      </a>
-    </dd>
+      <dt>Occasion</dt>
+      <dd><%= @the_gifts_given.occasion.presence || "—" %></dd>
 
-    <dt>Liked?</dt>
-    <dd><%= @the_gifts_given.liked ? "✅ Yes" : "❌ No" %></dd>
+      <dt>Given On</dt>
+      <dd><%= @the_gifts_given.given_on&.strftime("%B %d, %Y") || "—" %></dd>
 
-    <dt>Given on</dt>
-    <dd><%= @the_gifts_given.given_on&.strftime("%B %d, %Y") %></dd>
+      <dt>Price</dt>
+      <dd><%= @the_gifts_given.price ? "$#{@the_gifts_given.price}" : "—" %></dd>
 
-    <dt>Notes</dt>
-    <dd><%= @the_gifts_given.notes.presence || "—" %></dd>
+      <dt>Liked?</dt>
+      <dd><%= @the_gifts_given.liked ? "✅ Yes" : "❌ No" %></dd>
 
-    <dt>Occasion</dt>
-    <dd><%= @the_gifts_given.occasion.presence || "—" %></dd>
+      <dt>Notes</dt>
+      <dd><%= @the_gifts_given.notes.presence || "—" %></dd>
 
-    <dt>Price</dt>
-    <dd><%= @the_gifts_given.price ? "$#{@the_gifts_given.price}" : "—" %></dd>
+      <dt>Link</dt>
+      <dd>
+        <% if @the_gifts_given.url.present? %>
+          <a href="<%= @the_gifts_given.url %>" target="_blank">View Product ↗</a>
+        <% else %>
+          —
+        <% end %>
+      </dd>
 
-    <dt>Link</dt>
-    <dd>
-      <% if @the_gifts_given.url.present? %>
-        <a href="<%= @the_gifts_given.url %>" target="_blank">View Product ↗</a>
-      <% else %>
-        —
-      <% end %>
-    </dd>
+      <dt>Added</dt>
+      <dd style="color: var(--pico-muted-color); font-size: 0.85rem;"><%= time_ago_in_words(@the_gifts_given.created_at) %> ago</dd>
+    </dl>
+  </article>
 
-    <dt>Created at</dt>
-    <dd><%= time_ago_in_words(@the_gifts_given.created_at) %> ago</dd>
+  <hr>
 
-    <dt>Updated at</dt>
-    <dd><%= time_ago_in_words(@the_gifts_given.updated_at) %> ago</dd>
-  </dl>
+  <details>
+    <summary style="font-size: 1rem; font-weight: 600; cursor: pointer;">✏️ Edit Gift</summary>
+    <article style="margin-top: 0.75rem;">
+      <form action="/people/<%= @the_gifts_given.person_id %>/gifts_givens/<%= @the_gifts_given.id %>" method="post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <input type="hidden" name="_method" value="patch">
 
-  <form action="/people/<%= @the_gifts_given.person_id %>/gifts_givens/<%= @the_gifts_given.id %>" method="post">
-    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-    <input type="hidden" name="_method" value="delete">
-    <button type="submit">Delete gift</button>
-  </form>
-</article>
+        <div class="form-row">
+          <div>
+            <label for="gift_box">Gift Name</label>
+            <input type="text" id="gift_box" name="query_gift" value="<%= @the_gifts_given.gift %>">
+          </div>
+          <div>
+            <label for="occasion_box">Occasion</label>
+            <input type="text" id="occasion_box" name="query_occasion" value="<%= @the_gifts_given.occasion %>">
+          </div>
+        </div>
 
-<hr>
+        <div class="form-row">
+          <div>
+            <label for="given_on_box">Given On</label>
+            <input type="date" id="given_on_box" name="query_given_on" value="<%= @the_gifts_given.given_on %>">
+          </div>
+          <div>
+            <label for="price_box">Price</label>
+            <input type="number" id="price_box" name="query_price" value="<%= @the_gifts_given.price %>">
+          </div>
+        </div>
 
-<article>
-  <header>
-    <h2>Edit gift</h2>
-  </header>
+        <div>
+          <label for="url_box">Link (optional)</label>
+          <input type="text" id="url_box" name="query_url" value="<%= @the_gifts_given.url %>">
+        </div>
 
-  <form action="/people/<%= @the_gifts_given.person_id %>/gifts_givens/<%= @the_gifts_given.id %>" method="post">
-    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-    <input type="hidden" name="_method" value="patch">
+        <div>
+          <label for="notes_box">Notes (optional)</label>
+          <input type="text" id="notes_box" name="query_notes" value="<%= @the_gifts_given.notes %>">
+        </div>
 
-    <div>
-      <label for="gift_box">Gift</label>
-      <input type="text" id="gift_box" name="query_gift" value="<%= @the_gifts_given.gift %>">
-    </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+          <input type="checkbox" id="liked_box" name="query_liked" value="true" role="switch" <%= "checked" if @the_gifts_given.liked %>>
+          <label for="liked_box" style="margin: 0;">They liked it 👍</label>
+        </div>
 
-    <div>
-      <label for="liked_box">Liked?</label>
-      <input type="checkbox" id="liked_box" name="query_liked" value="true" <%= "checked" if @the_gifts_given.liked %>>
-    </div>
-
-    <div>
-      <label for="given_on_box">Given on</label>
-      <input type="date" id="given_on_box" name="query_given_on" value="<%= @the_gifts_given.given_on %>">
-    </div>
-
-    <div>
-      <label for="notes_box">Notes</label>
-      <input type="text" id="notes_box" name="query_notes" value="<%= @the_gifts_given.notes %>">
-    </div>
-
-    <div>
-      <label for="occasion_box">Occasion</label>
-      <input type="text" id="occasion_box" name="query_occasion" value="<%= @the_gifts_given.occasion %>">
-    </div>
-
-    <div>
-      <label for="price_box">Price</label>
-      <input type="number" id="price_box" name="query_price" value="<%= @the_gifts_given.price %>">
-    </div>
-
-    <div>
-      <label for="url_box">Link (optional)</label>
-      <input type="text" id="url_box" name="query_url" value="<%= @the_gifts_given.url %>">
-    </div>
-
-    <button type="submit">Update gift</button>
-  </form>
-</article>
-
-<hr>
+        <button type="submit" style="width: 100%;">Update Gift</button>
+      </form>
+    </article>
+  </details>
+</div>

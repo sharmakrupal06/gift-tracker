@@ -1,30 +1,35 @@
-<h1>Add a New Person</h1>
-
-<form action="/people" method="post">
-  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-
-  <div>
-    <label for="name_box">Name</label>
-    <input type="text" id="name_box" name="query_name">
+<div style="max-width: 560px; margin: 0 auto;">
+  <div style="margin-bottom: 1.5rem;">
+    <h1 style="margin-bottom: 0.25rem;">➕ Add a New Person</h1>
+    <a href="/people" style="font-size: 0.9rem;">← Back to all people</a>
   </div>
 
-  <div>
-    <label for="birthday_box">Birthday</label>
-    <input type="date" id="birthday_box" name="query_birthday">
-  </div>
+  <article>
+    <form action="/people" method="post">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 
-  <div>
-    <label for="relationship_box">Relationship</label>
-    <input type="text" id="relationship_box" name="query_relationship" placeholder="e.g. Friend, Sister, Coworker">
-  </div>
+      <div class="form-row">
+        <div>
+          <label for="name_box">Name</label>
+          <input type="text" id="name_box" name="query_name" placeholder="e.g. Jane Smith" autofocus>
+        </div>
+        <div>
+          <label for="relationship_box">Relationship</label>
+          <input type="text" id="relationship_box" name="query_relationship" placeholder="e.g. Friend, Sister, Coworker">
+        </div>
+      </div>
 
-  <div>
-    <label for="notes_box">Notes (optional)</label>
-    <textarea id="notes_box" name="query_notes" placeholder="e.g. Loves hiking, allergies: nuts, clothing size M"></textarea>
-  </div>
+      <div>
+        <label for="birthday_box">Birthday</label>
+        <input type="date" id="birthday_box" name="query_birthday">
+      </div>
 
-  <button type="submit">Create Person</button>
-</form>
+      <div>
+        <label for="notes_box">Notes <span style="color: var(--pico-muted-color); font-size: 0.85rem;">(optional)</span></label>
+        <textarea id="notes_box" name="query_notes" placeholder="e.g. Loves hiking, allergies: nuts, clothing size M" rows="3"></textarea>
+      </div>
 
-<br>
-<a href="/people">← Back to All People</a>
+      <button type="submit" style="width: 100%;">Create Person</button>
+    </form>
+  </article>
+</div>
