@@ -9,5 +9,7 @@ Rails.application.routes.draw do
     resources :events, only: [:create, :destroy]
   end
 
+  get "/about", to: "pages#about"
+
   root "people#index"
 end

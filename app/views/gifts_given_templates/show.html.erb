@@ -23,13 +23,22 @@
     <dd><%= @the_gifts_given.given_on&.strftime("%B %d, %Y") %></dd>
 
     <dt>Notes</dt>
-    <dd><%= @the_gifts_given.notes %></dd>
+    <dd><%= @the_gifts_given.notes.presence || "—" %></dd>
 
     <dt>Occasion</dt>
-    <dd><%= @the_gifts_given.occasion %></dd>
+    <dd><%= @the_gifts_given.occasion.presence || "—" %></dd>
 
     <dt>Price</dt>
     <dd><%= @the_gifts_given.price ? "$#{@the_gifts_given.price}" : "—" %></dd>
+
+    <dt>Link</dt>
+    <dd>
+      <% if @the_gifts_given.url.present? %>
+        <a href="<%= @the_gifts_given.url %>" target="_blank">View Product ↗</a>
+      <% else %>
+        —
+      <% end %>
+    </dd>
 
     <dt>Created at</dt>
     <dd><%= time_ago_in_words(@the_gifts_given.created_at) %> ago</dd>
@@ -84,6 +93,11 @@
     <div>
       <label for="price_box">Price</label>
       <input type="number" id="price_box" name="query_price" value="<%= @the_gifts_given.price %>">
+    </div>
+
+    <div>
+      <label for="url_box">Link (optional)</label>
+      <input type="text" id="url_box" name="query_url" value="<%= @the_gifts_given.url %>">
     </div>
 
     <button type="submit">Update gift</button>

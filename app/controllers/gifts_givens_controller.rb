@@ -26,6 +26,7 @@ class GiftsGivensController < ApplicationController
     the_gifts_given.notes = params.fetch("query_notes")
     the_gifts_given.occasion = params.fetch("query_occasion")
     the_gifts_given.price = params.fetch("query_price")
+    the_gifts_given.url = params.fetch("query_url", nil)
 
     if the_gifts_given.valid?
       the_gifts_given.save
@@ -45,6 +46,7 @@ class GiftsGivensController < ApplicationController
     the_gifts_given.notes = params.fetch("query_notes")
     the_gifts_given.occasion = params.fetch("query_occasion")
     the_gifts_given.price = params.fetch("query_price")
+    the_gifts_given.url = params.fetch("query_url", nil)
 
     if the_gifts_given.valid?
       the_gifts_given.save

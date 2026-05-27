@@ -5,6 +5,7 @@
 #  id          :bigint           not null, primary key
 #  description :string
 #  purchased   :boolean
+#  url         :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  person_id   :integer

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_05_27_204553) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_27_222440) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -30,6 +30,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_27_204553) do
     t.boolean "purchased"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "url"
   end
 
   create_table "gifts_givens", force: :cascade do |t|
@@ -42,6 +43,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_27_204553) do
     t.integer "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "url"
   end
 
   create_table "people", force: :cascade do |t|
@@ -51,6 +53,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_27_204553) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.string "relationship"
+    t.text "notes"
     t.index ["user_id"], name: "index_people_on_user_id"
   end
 

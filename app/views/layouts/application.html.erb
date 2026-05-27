@@ -29,13 +29,14 @@
       <h1 style="margin-bottom: 0.5rem; font-size: 2.5rem; letter-spacing: 0.05em;">📇 Rolodex</h1>
       <p style="color: var(--pico-muted-color); margin-bottom: 1rem;">Your personal birthday & gift tracker</p>
       <nav style="display: flex; justify-content: center; gap: 1.5rem; align-items: center;">
-          <a href="/people">🎂 Birthday Tracker</a>
-          <a href="/people/new">Add Person</a>
-          <form action="<%= session_path %>" method="post" style="margin: 0;">
-            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-            <input type="hidden" name="_method" value="delete">
-            <a href="#" onclick="this.closest('form').submit(); return false;">Log Out</a>
-          </form>
+        <a href="/about">About Us</a>
+        <a href="/people">🎂 Birthday Tracker</a>
+        <a href="/people/new">Add Person</a>
+        <form action="<%= session_path %>" method="post" style="margin: 0;">
+          <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+          <input type="hidden" name="_method" value="delete">
+          <a href="#" onclick="this.closest('form').submit(); return false;">Log Out</a>
+        </form>
       </nav>
     </header>
 

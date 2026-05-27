@@ -5,6 +5,7 @@ class GiftIdeasController < ApplicationController
   def create
     the_idea = @the_person.gift_ideas.build
     the_idea.description = params.fetch("query_description")
+    the_idea.url = params.fetch("query_url", nil)
     the_idea.purchased = false
 
     if the_idea.save
@@ -24,6 +25,7 @@ class GiftIdeasController < ApplicationController
   def update
     the_idea = @the_person.gift_ideas.find(params[:id])
     the_idea.purchased = params.fetch("query_purchased", false)
+    the_idea.url = params.fetch("query_url", the_idea.url)
 
     if the_idea.save
       redirect_to("/people/#{@the_person.id}", { :notice => "Gift idea updated!" })

@@ -20,6 +20,7 @@ class PeopleController < ApplicationController
     the_person.name = params.fetch("query_name")
     the_person.birthday = params.fetch("query_birthday")
     the_person.relationship = params.fetch("query_relationship", nil)
+    the_person.notes = params.fetch("query_notes", nil)
 
     if the_person.valid?
       the_person.save
@@ -33,6 +34,7 @@ class PeopleController < ApplicationController
     @the_person.name = params.fetch("query_name")
     @the_person.birthday = params.fetch("query_birthday")
     @the_person.relationship = params.fetch("query_relationship", nil)
+    @the_person.notes = params.fetch("query_notes", nil)
 
     if @the_person.valid?
       @the_person.save
