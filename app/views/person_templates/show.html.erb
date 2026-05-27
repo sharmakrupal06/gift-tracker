@@ -60,6 +60,53 @@
 
 <article>
   <header>
+    <h2>📅 Important Dates for <%= @the_person.name %></h2>
+  </header>
+
+  <form action="/people/<%= @the_person.id %>/events" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <div style="display: flex; gap: 1rem; align-items: flex-end; flex-wrap: wrap;">
+      <div>
+        <label for="event_type_box">Type</label>
+        <input type="text" id="event_type_box" name="query_event_type" placeholder="e.g. Anniversary, Graduation">
+      </div>
+      <div>
+        <label for="event_date_box">Date</label>
+        <input type="date" id="event_date_box" name="query_date">
+      </div>
+      <div>
+        <label for="event_note_box">Note (optional)</label>
+        <input type="text" id="event_note_box" name="query_note" placeholder="e.g. 10 year anniversary!">
+      </div>
+      <div>
+        <button type="submit">Add Date</button>
+      </div>
+    </div>
+  </form>
+
+  <% if @the_person.events.any? %>
+    <ul>
+      <% @the_person.events.order(:date).each do |event| %>
+        <li>
+          <strong><%= event.event_type %></strong> — <%= event.date.strftime("%B %d, %Y") %>
+          <% if event.note.present? %> · <em><%= event.note %></em><% end %>
+          <form action="/people/<%= @the_person.id %>/events/<%= event.id %>" method="post" style="display:inline;">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="hidden" name="_method" value="delete">
+            <button type="submit" style="background:none; border:none; color:red; cursor:pointer; padding:0; font-size:inherit;">❌</button>
+          </form>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No important dates added yet.</p>
+  <% end %>
+</article>
+
+<hr>
+
+<article>
+  <header>
     <h2>🎁 Gifts for <%= @the_person.name %></h2>
   </header>
 

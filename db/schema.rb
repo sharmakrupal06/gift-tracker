@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_05_27_195943) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_27_204553) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "events", force: :cascade do |t|
+    t.string "event_type"
+    t.date "date"
+    t.string "note"
+    t.bigint "person_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_events_on_person_id"
+  end
 
   create_table "gift_ideas", force: :cascade do |t|
     t.integer "person_id"
@@ -203,6 +213,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_27_195943) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  add_foreign_key "events", "people"
   add_foreign_key "people", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

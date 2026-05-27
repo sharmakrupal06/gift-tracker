@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :people do
     resources :gifts_givens
     resources :gift_ideas
+    resources :events, only: [:create, :destroy]
   end
 
   root "people#index"

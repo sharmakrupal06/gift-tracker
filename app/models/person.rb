@@ -21,6 +21,7 @@
 class Person < ApplicationRecord
   has_many :gifts_givens, dependent: :destroy
   has_many :gift_ideas, dependent: :destroy
+  has_many :events, dependent: :destroy
   belongs_to :user
 
   validates :name, presence: true
