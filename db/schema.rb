@@ -16,8 +16,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_27_164408) do
 
   create_table "gifts_givens", force: :cascade do |t|
     t.string "gift"
-    t.integer "people_id"
-    t.string "liked"
+    t.integer "person_id"
+    t.boolean "liked", default: false
     t.date "given_on"
     t.text "notes"
     t.string "occasion"
@@ -27,7 +27,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_27_164408) do
   end
 
   create_table "people", force: :cascade do |t|
-    t.string "names"
+    t.string "name"
     t.date "birthday"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

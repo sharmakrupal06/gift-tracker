@@ -8,7 +8,7 @@ class PeopleController < ApplicationController
   end
 
   def show
-    the_id = params.fetch("path_id")
+    the_id = params[:id]
 
     matching_people = Person.where({ :id => the_id })
 
@@ -19,7 +19,7 @@ class PeopleController < ApplicationController
 
   def create
     the_person = Person.new
-    the_person.names = params.fetch("query_names")
+    the_person.name = params.fetch("query_name")
     the_person.birthday = params.fetch("query_birthday")
 
     if the_person.valid?
@@ -31,26 +31,26 @@ class PeopleController < ApplicationController
   end
 
   def update
-    the_id = params.fetch("path_id")
+    the_id = params[:id]
     the_person = Person.where({ :id => the_id }).at(0)
 
-    the_person.names = params.fetch("query_names")
+    the_person.name = params.fetch("query_name")
     the_person.birthday = params.fetch("query_birthday")
 
     if the_person.valid?
       the_person.save
-      redirect_to("/people/#{the_person.id}", { :notice => "Person updated successfully." } )
+      redirect_to("/people/#{the_person.id}", { :notice => "Person updated successfully." })
     else
       redirect_to("/people/#{the_person.id}", { :alert => the_person.errors.full_messages.to_sentence })
     end
   end
 
   def destroy
-    the_id = params.fetch("path_id")
+    the_id = params[:id]
     the_person = Person.where({ :id => the_id }).at(0)
 
     the_person.destroy
 
-    redirect_to("/people", { :notice => "Person deleted successfully." } )
+    redirect_to("/people", { :notice => "Person deleted successfully." })
   end
 end

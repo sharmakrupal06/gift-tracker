@@ -8,7 +8,7 @@ class GiftsGivensController < ApplicationController
   end
 
   def show
-    the_id = params.fetch("path_id")
+    the_id = params[:id]
 
     matching_gifts_givens = GiftsGiven.where({ :id => the_id })
 
@@ -20,7 +20,7 @@ class GiftsGivensController < ApplicationController
   def create
     the_gifts_given = GiftsGiven.new
     the_gifts_given.gift = params.fetch("query_gift")
-    the_gifts_given.people_id = params.fetch("query_people_id")
+    the_gifts_given.person_id = params[:person_id]
     the_gifts_given.liked = params.fetch("query_liked")
     the_gifts_given.given_on = params.fetch("query_given_on")
     the_gifts_given.notes = params.fetch("query_notes")
@@ -29,18 +29,17 @@ class GiftsGivensController < ApplicationController
 
     if the_gifts_given.valid?
       the_gifts_given.save
-      redirect_to("/gifts_givens", { :notice => "Gifts given created successfully." })
+      redirect_to("/people/#{the_gifts_given.person_id}", { :notice => "Gift created successfully." })
     else
-      redirect_to("/gifts_givens", { :alert => the_gifts_given.errors.full_messages.to_sentence })
+      redirect_to("/people/#{the_gifts_given.person_id}", { :alert => the_gifts_given.errors.full_messages.to_sentence })
     end
   end
 
   def update
-    the_id = params.fetch("path_id")
+    the_id = params[:id]
     the_gifts_given = GiftsGiven.where({ :id => the_id }).at(0)
-
+    the_gifts_given.person_id = params[:person_id]
     the_gifts_given.gift = params.fetch("query_gift")
-    the_gifts_given.people_id = params.fetch("query_people_id")
     the_gifts_given.liked = params.fetch("query_liked")
     the_gifts_given.given_on = params.fetch("query_given_on")
     the_gifts_given.notes = params.fetch("query_notes")
@@ -49,18 +48,18 @@ class GiftsGivensController < ApplicationController
 
     if the_gifts_given.valid?
       the_gifts_given.save
-      redirect_to("/gifts_givens/#{the_gifts_given.id}", { :notice => "Gifts given updated successfully." } )
+      redirect_to("/people/#{the_gifts_given.person_id}", { :notice => "Gift updated successfully." })
     else
-      redirect_to("/gifts_givens/#{the_gifts_given.id}", { :alert => the_gifts_given.errors.full_messages.to_sentence })
+      redirect_to("/people/#{the_gifts_given.person_id}", { :alert => the_gifts_given.errors.full_messages.to_sentence })
     end
   end
 
   def destroy
-    the_id = params.fetch("path_id")
+    the_id = params[:id]
     the_gifts_given = GiftsGiven.where({ :id => the_id }).at(0)
 
     the_gifts_given.destroy
 
-    redirect_to("/gifts_givens", { :notice => "Gifts given deleted successfully." } )
+    redirect_to("/people", { :notice => "Gift deleted successfully." })
   end
 end

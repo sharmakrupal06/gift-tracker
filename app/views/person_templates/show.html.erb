@@ -1,81 +1,106 @@
-<h1>
-  Person #<%= @the_person.id %> details
-</h1>
+<h1><%= @the_person.name %></h1>
 
 <article>
   <div>
-    <a href="/people">
-      Go back
-    </a>
+    <a href="/people">← Go back to all people</a>
   </div>
 
-  <div>
-    <a href="/delete_person/<%= @the_person.id %>">
-      Delete person
-    </a>
-  </div>
   <dl>
-    <dt>
-      Names
-    </dt>
-    <dd>
-      <%= @the_person.names %>
-    </dd>
+    <dt>Name</dt>
+    <dd><%= @the_person.name %></dd>
 
-    <dt>
-      Birthday
-    </dt>
-    <dd>
-      <%= @the_person.birthday %>
-    </dd>
+    <dt>Birthday</dt>
+    <dd><%= @the_person.birthday.strftime("%B %d, %Y") %></dd>
 
-    <dt>
-      Created at
-    </dt>
-    <dd>
-      <%= time_ago_in_words(@the_person.created_at) %> ago
-    </dd>
+    <dt>Next Birthday</dt>
+    <dd><%= @the_person.next_birthday.strftime("%B %d, %Y") %></dd>
 
-    <dt>
-      Updated at
-    </dt>
-    <dd>
-      <%= time_ago_in_words(@the_person.updated_at) %> ago
-    </dd>
+    <dt>Created at</dt>
+    <dd><%= time_ago_in_words(@the_person.created_at) %> ago</dd>
+
+    <dt>Updated at</dt>
+    <dd><%= time_ago_in_words(@the_person.updated_at) %> ago</dd>
   </dl>
+
+  <form action="/people/<%= @the_person.id %>" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="_method" value="delete">
+    <button type="submit">Delete person</button>
+  </form>
 </article>
 
 <hr>
 
-
 <article>
   <header>
-    <h2>
-      Edit person
-    </h2>
+    <h2>Edit person</h2>
   </header>
 
-  <form action="/modify_person/<%= @the_person.id %>"  method="post" >
-    <div>
-      <label for="names_box">
-        Names
-      </label>
+  <form action="/people/<%= @the_person.id %>" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="_method" value="patch">
 
-      <input type="text" id="names_box" name="query_names" value="<%= @the_person.names %>">
+    <div>
+      <label for="name_box">Name</label>
+      <input type="text" id="name_box" name="query_name" value="<%= @the_person.name %>">
     </div>
 
     <div>
-      <label for="birthday_box">
-        Birthday
-      </label>
-
+      <label for="birthday_box">Birthday</label>
       <input type="date" id="birthday_box" name="query_birthday" value="<%= @the_person.birthday %>">
     </div>
 
-    <button type="submit">
-      Update person
-    </button>
+    <button type="submit">Update person</button>
   </form>
+</article>
+
+<hr>
+
+<article>
+  <header>
+    <h2>🎁 Gifts for <%= @the_person.name %></h2>
+  </header>
+
+  <a href="/people/<%= @the_person.id %>/gifts_givens">+ Add a Gift</a>
+
+  <% if @the_person.gifts_givens.any? %>
+    <table>
+      <thead>
+        <tr>
+          <th>Gift</th>
+          <th>Occasion</th>
+          <th>Given On</th>
+          <th>Liked?</th>
+          <th>Price</th>
+          <th>Notes</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @the_person.gifts_givens.order(given_on: :desc).each do |gift| %>
+          <tr>
+            <td><%= gift.gift %></td>
+            <td><%= gift.occasion.presence || "—" %></td>
+            <td><%= gift.given_on&.strftime("%B %d, %Y") %></td>
+            <td><%= gift.liked ? "✅" : "❌" %></td>
+            <td><%= gift.price ? "$#{gift.price}" : "—" %></td>
+            <td><%= gift.notes.presence || "—" %></td>
+            <td>
+              <a href="/people/<%= @the_person.id %>/gifts_givens/<%= gift.id %>">Edit</a>
+              |
+              <form action="/people/<%= @the_person.id %>/gifts_givens/<%= gift.id %>" method="post" style="display:inline;">
+                <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                <input type="hidden" name="_method" value="delete">
+                <button type="submit">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No gifts recorded yet for <%= @the_person.name %>.</p>
+  <% end %>
 </article>
 
 <hr>
