@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="light">
   <head>
     <title><%= content_for(:title) || "Rolodex" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -35,6 +35,7 @@
           <input type="hidden" name="_method" value="delete">
           <a href="#" onclick="this.closest('form').submit(); return false;">Log Out</a>
         </form>
+        <a href="#" onclick="toggleTheme(); return false;" id="theme-toggle" title="Toggle dark mode">🌙</a>
       </nav>
     </header>
 
@@ -42,12 +43,31 @@
 
     <main class="container">
       <% if notice %>
-        <div style="color: green; margin-bottom: 1rem;">✅ <%= notice %></div>
+        <div class="flash-notice">✅ <%= notice %></div>
       <% end %>
       <% if alert %>
-        <div style="color: red; margin-bottom: 1rem;">⚠️ <%= alert %></div>
+        <div class="flash-alert">⚠️ <%= alert %></div>
       <% end %>
       <%= yield %>
     </main>
+
+    <script>
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateToggleIcon(savedTheme);
+
+      function toggleTheme() {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        updateToggleIcon(next);
+      }
+
+      function updateToggleIcon(theme) {
+        const toggle = document.getElementById('theme-toggle');
+        if (toggle) toggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+      }
+    </script>
   </body>
 </html>

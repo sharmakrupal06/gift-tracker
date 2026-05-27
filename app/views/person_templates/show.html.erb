@@ -6,7 +6,7 @@
   <form action="/people/<%= @the_person.id %>" method="post" style="margin:0;">
     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
     <input type="hidden" name="_method" value="delete">
-    <button type="submit" class="outline" style="color: #e63946; border-color: #e63946; font-size: 0.85rem; padding: 0.4rem 0.8rem;">🗑 Delete</button>
+    <button type="submit" class="outline" onclick="return confirm('Delete <%= @the_person.name %>? This will also remove all their gifts, ideas, and events.')" style="color: #e63946; border-color: #e63946; font-size: 0.85rem; padding: 0.4rem 0.8rem;">🗑 Delete</button>
   </form>
 </div>
 
@@ -114,7 +114,7 @@
           <form action="/people/<%= @the_person.id %>/events/<%= event.id %>" method="post" style="margin:0;">
             <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
             <input type="hidden" name="_method" value="delete">
-            <button type="submit" class="btn-delete">✕</button>
+            <button type="submit" class="btn-delete" onclick="return confirm('Remove this date?')">✕</button>
           </form>
         </li>
       <% end %>
@@ -170,7 +170,7 @@
                 <form action="/people/<%= @the_person.id %>/gifts_givens/<%= gift.id %>" method="post" style="display:inline; margin:0;">
                   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
                   <input type="hidden" name="_method" value="delete">
-                  <button type="submit" class="btn-delete">✕</button>
+                  <button type="submit" class="btn-delete" onclick="return confirm('Delete this gift? This cannot be undone.')">✕</button>
                 </form>
               </td>
             </tr>
@@ -235,7 +235,7 @@
             <form action="/people/<%= @the_person.id %>/gift_ideas/<%= idea.id %>" method="post" style="margin:0;">
               <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
               <input type="hidden" name="_method" value="delete">
-              <button type="submit" class="btn-delete">✕</button>
+              <button type="submit" class="btn-delete" onclick="return confirm('Remove this gift idea?')">✕</button>
             </form>
           </div>
         </li>

@@ -233,3 +233,26 @@ main h2 {
   flex-shrink: 0;
   margin-bottom: 0;
 }
+
+/* ===== FLASH MESSAGES ===== */
+.flash-notice {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  border-radius: 8px;
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #6ee7b7;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.flash-alert {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  border-radius: 8px;
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
