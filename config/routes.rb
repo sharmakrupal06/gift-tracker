@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  get "gift_ideas/create"
-  get "gift_ideas/destroy"
+  resource :session
+  resources :passwords, param: :token
+  resources :registrations, only: [:new, :create]
+
   resources :people do
     resources :gifts_givens
     resources :gift_ideas

@@ -9,17 +9,14 @@
     <dt>Name</dt>
     <dd><%= @the_person.name %></dd>
 
+    <dt>Relationship</dt>
+    <dd><%= @the_person.relationship.presence || "—" %></dd>
+
     <dt>Birthday</dt>
     <dd><%= @the_person.birthday.strftime("%B %d, %Y") %></dd>
 
     <dt>Next Birthday</dt>
     <dd><%= @the_person.next_birthday.strftime("%B %d, %Y") %></dd>
-
-    <dt>Created at</dt>
-    <dd><%= time_ago_in_words(@the_person.created_at) %> ago</dd>
-
-    <dt>Updated at</dt>
-    <dd><%= time_ago_in_words(@the_person.updated_at) %> ago</dd>
   </dl>
 
   <form action="/people/<%= @the_person.id %>" method="post">
@@ -43,6 +40,11 @@
     <div>
       <label for="name_box">Name</label>
       <input type="text" id="name_box" name="query_name" value="<%= @the_person.name %>">
+    </div>
+
+    <div>
+      <label for="relationship_box">Relationship</label>
+      <input type="text" id="relationship_box" name="query_relationship" placeholder="e.g. Friend, Sister, Colleague" value="<%= @the_person.relationship %>">
     </div>
 
     <div>
@@ -91,7 +93,7 @@
               <form action="/people/<%= @the_person.id %>/gifts_givens/<%= gift.id %>" method="post" style="display:inline;">
                 <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
                 <input type="hidden" name="_method" value="delete">
-                <button type="submit">Delete</button>
+                <button type="submit" style="background:none; border:none; color:red; cursor:pointer; padding:0; font-size:inherit;">Delete</button>
               </form>
             </td>
           </tr>
@@ -102,8 +104,6 @@
     <p>No gifts recorded yet for <%= @the_person.name %>.</p>
   <% end %>
 </article>
-
-<hr>
 
 <hr>
 

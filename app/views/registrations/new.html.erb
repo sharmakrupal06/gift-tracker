@@ -1,0 +1,16 @@
+<h1>Create an Account</h1>
+
+<%= form_with url: registrations_path do |f| %>
+  <label>Email</label>
+  <%= f.email_field :email_address, placeholder: "you@example.com" %>
+
+  <label>Password</label>
+  <%= f.password_field :password, placeholder: "Password" %>
+
+  <label>Confirm Password</label>
+  <%= f.password_field :password_confirmation, placeholder: "Confirm password" %>
+
+  <%= f.submit "Sign Up" %>
+<% end %>
+
+<p>Already have an account? <a href="<%= new_session_path %>">Log in</a></p>

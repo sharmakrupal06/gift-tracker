@@ -1,16 +1,13 @@
 class PeopleController < ApplicationController
+  before_action :require_authentication
+  before_action :set_person, only: [:show, :update, :destroy]
+
   def index
-    @list_of_people = Person.all.sort_by { |p| p.next_birthday }
+    @list_of_people = current_user.people.sort_by { |p| p.next_birthday }
     render({ :template => "person_templates/index" })
   end
 
   def show
-    the_id = params[:id]
-
-    matching_people = Person.where({ :id => the_id })
-
-    @the_person = matching_people.at(0)
-
     render({ :template => "person_templates/show" })
   end
 
@@ -19,9 +16,10 @@ class PeopleController < ApplicationController
   end
 
   def create
-    the_person = Person.new
+    the_person = current_user.people.build
     the_person.name = params.fetch("query_name")
     the_person.birthday = params.fetch("query_birthday")
+    the_person.relationship = params.fetch("query_relationship", nil)
 
     if the_person.valid?
       the_person.save
@@ -32,26 +30,26 @@ class PeopleController < ApplicationController
   end
 
   def update
-    the_id = params[:id]
-    the_person = Person.where({ :id => the_id }).at(0)
+    @the_person.name = params.fetch("query_name")
+    @the_person.birthday = params.fetch("query_birthday")
+    @the_person.relationship = params.fetch("query_relationship", nil)
 
-    the_person.name = params.fetch("query_name")
-    the_person.birthday = params.fetch("query_birthday")
-
-    if the_person.valid?
-      the_person.save
-      redirect_to("/people/#{the_person.id}", { :notice => "Person updated successfully." })
+    if @the_person.valid?
+      @the_person.save
+      redirect_to("/people/#{@the_person.id}", { :notice => "Person updated successfully." })
     else
-      redirect_to("/people/#{the_person.id}", { :alert => the_person.errors.full_messages.to_sentence })
+      redirect_to("/people/#{@the_person.id}", { :alert => @the_person.errors.full_messages.to_sentence })
     end
   end
 
   def destroy
-    the_id = params[:id]
-    the_person = Person.where({ :id => the_id }).at(0)
-
-    the_person.destroy
-
+    @the_person.destroy
     redirect_to("/people", { :notice => "Person deleted successfully." })
+  end
+
+  private
+
+  def set_person
+    @the_person = current_user.people.find(params[:id])
   end
 end
