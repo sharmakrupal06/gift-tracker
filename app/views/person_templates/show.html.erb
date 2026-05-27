@@ -104,3 +104,44 @@
 </article>
 
 <hr>
+
+<hr>
+
+<article>
+  <header>
+    <h2>💡 Gift Ideas for <%= @the_person.name %></h2>
+  </header>
+
+  <form action="/people/<%= @the_person.id %>/gift_ideas" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="text" name="query_description" placeholder="Add a gift idea...">
+    <button type="submit">Add Idea</button>
+  </form>
+
+  <% if @the_person.gift_ideas.any? %>
+    <ul>
+      <% @the_person.gift_ideas.each do |idea| %>
+        <li>
+          <% if idea.purchased %>
+            <s><%= idea.description %></s> ✅ Purchased
+          <% else %>
+            <%= idea.description %>
+            <form action="/people/<%= @the_person.id %>/gift_ideas/<%= idea.id %>" method="post" style="display:inline;">
+              <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+              <input type="hidden" name="_method" value="patch">
+              <input type="hidden" name="query_purchased" value="true">
+              <button type="submit">✅ Mark Purchased</button>
+            </form>
+          <% end %>
+          <form action="/people/<%= @the_person.id %>/gift_ideas/<%= idea.id %>" method="post" style="display:inline;">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="hidden" name="_method" value="delete">
+            <button type="submit">❌</button>
+          </form>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No gift ideas yet.</p>
+  <% end %>
+</article>

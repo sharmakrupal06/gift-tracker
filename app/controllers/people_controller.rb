@@ -1,9 +1,6 @@
 class PeopleController < ApplicationController
   def index
-    matching_people = Person.all
-
-    @list_of_people = matching_people.order({ :created_at => :desc })
-
+    @list_of_people = Person.all.sort_by { |p| p.next_birthday }
     render({ :template => "person_templates/index" })
   end
 

@@ -3,10 +3,16 @@
 <article>
   <ul>
     <% @list_of_people.each do |a_person| %>
-    <li>
+      <% days_until = (a_person.next_birthday - Date.today).to_i %>
+      <li>
         <a href="/people/<%= a_person.id %>">
-        <%= a_person.name %> 🎂 <%= a_person.birthday.strftime("%B %d") %>
-       </a>
+          <%= a_person.name %> 🎂 <%= a_person.birthday.strftime("%B %d") %>
+        </a>
+        <% if days_until == 0 %>
+          🎉 <strong>Today!</strong>
+        <% elsif days_until <= 30 %>
+          ⏰ <strong>in <%= days_until %> days</strong>
+        <% end %>
       </li>
     <% end %>
   </ul>

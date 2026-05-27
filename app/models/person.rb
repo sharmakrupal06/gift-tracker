@@ -10,6 +10,7 @@
 #
 class Person < ApplicationRecord
   has_many :gifts_givens, dependent: :destroy
+  has_many :gift_ideas, dependent: :destroy
 
   validates :name, presence: true
   validates :birthday, presence: true
