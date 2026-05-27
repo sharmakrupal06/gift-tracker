@@ -9,16 +9,227 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
-@import url("custom-image.css");
-
-/* Bootstrap sets scroll-behavior: smooth on :root, which
-   interferes with Turbo's scroll preservation during morphs. */
-:root {
-  scroll-behavior: auto !important;
+/* ===== HEADER ===== */
+header.app-header {
+  padding: 1rem 0 0.5rem;
 }
 
-@media (max-width: 576px) {
-  #dev-toolbar {
-    display: none !important;
-  }
+header.app-header h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.1rem;
+}
+
+header.app-header p {
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+/* ===== NAV ===== */
+header.app-header nav a {
+  font-size: 0.9rem;
+  text-decoration: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+header.app-header nav a:hover {
+  background: var(--pico-primary-background);
+}
+
+header.app-header nav a.active {
+  font-weight: bold;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ===== UPCOMING BIRTHDAY CARDS ===== */
+.birthday-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  background: var(--pico-card-background-color);
+  border: 1px solid var(--pico-muted-border-color);
+  transition: box-shadow 0.2s;
+}
+
+.birthday-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.birthday-card a {
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.birthday-card .days-badge {
+  font-size: 0.85rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  background: var(--pico-primary);
+  color: white;
+  white-space: nowrap;
+}
+
+.birthday-card .days-badge.today {
+  background: #e63946;
+}
+
+/* ===== ALL PEOPLE LIST ===== */
+.people-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.people-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.25rem;
+  border-bottom: 1px solid var(--pico-muted-border-color);
+}
+
+.people-list li:last-child {
+  border-bottom: none;
+}
+
+.people-list li a {
+  text-decoration: none;
+}
+
+.people-list .person-meta {
+  font-size: 0.8rem;
+  color: var(--pico-muted-color);
+}
+
+/* ===== PAGE HEADINGS ===== */
+main h1 {
+  font-size: 1.6rem;
+  margin-bottom: 0.25rem;
+}
+
+main h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+}
+
+/* ===== PERSON PROFILE ===== */
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.profile-dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4rem 1.5rem;
+  margin: 0;
+}
+
+.profile-dl dt {
+  font-weight: 600;
+  color: var(--pico-muted-color);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding-top: 0.1rem;
+}
+
+.profile-dl dd {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* ===== SECTION HEADERS ===== */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.section-header h2 {
+  margin: 0;
+}
+
+/* ===== EVENTS LIST ===== */
+.events-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 0;
+}
+
+.events-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.25rem;
+  border-bottom: 1px solid var(--pico-muted-border-color);
+  font-size: 0.95rem;
+}
+
+.events-list li:last-child {
+  border-bottom: none;
+}
+
+/* ===== GIFT IDEAS LIST ===== */
+.ideas-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 0;
+}
+
+.ideas-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.25rem;
+  border-bottom: 1px solid var(--pico-muted-border-color);
+  font-size: 0.95rem;
+  gap: 0.5rem;
+}
+
+.ideas-list li:last-child {
+  border-bottom: none;
+}
+
+/* ===== DELETE BUTTON ===== */
+.btn-delete {
+  background: none;
+  border: none;
+  color: var(--pico-muted-color);
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.btn-delete:hover {
+  color: #e63946;
+}
+
+/* ===== INLINE FORM ROW ===== */
+.form-row {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.form-row div {
+  flex: 1;
+  min-width: 140px;
+}
+
+.form-row button {
+  flex-shrink: 0;
+  margin-bottom: 0;
 }

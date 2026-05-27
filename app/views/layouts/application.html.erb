@@ -10,28 +10,26 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <header class="container" style="text-align: center; padding-top: 2rem; padding-bottom: 1rem;">
-      <h1 style="margin-bottom: 0.5rem; font-size: 2.5rem; letter-spacing: 0.05em;">📇 Rolodex</h1>
-      <p style="color: var(--pico-muted-color); margin-bottom: 1rem;">Your personal birthday & gift tracker</p>
+    <header class="container app-header" style="text-align: center;">
+      <a href="/people" style="text-decoration: none; color: inherit;">
+        <h1>📇 Rolodex</h1>
+      </a>
+      <p style="color: var(--pico-muted-color); margin-bottom: 0.75rem;">Your personal birthday & gift tracker</p>
       <nav style="display: flex; justify-content: center; gap: 1.5rem; align-items: center;">
-        <a href="/about">About Us</a>
-        <a href="/people">🎂 Birthday Tracker</a>
-        <a href="/people/new">Add Person</a>
+        <a href="/about" class="<%= 'active' if request.path == '/about' %>">About</a>
+        <a href="/people" class="<%= 'active' if request.path == '/people' %>">🎂 Birthdays</a>
+        <a href="/people/new" class="<%= 'active' if request.path == '/people/new' %>">Add Person</a>
         <form action="<%= session_path %>" method="post" style="margin: 0;">
           <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
           <input type="hidden" name="_method" value="delete">
@@ -43,6 +41,12 @@
     <hr>
 
     <main class="container">
+      <% if notice %>
+        <div style="color: green; margin-bottom: 1rem;">✅ <%= notice %></div>
+      <% end %>
+      <% if alert %>
+        <div style="color: red; margin-bottom: 1rem;">⚠️ <%= alert %></div>
+      <% end %>
       <%= yield %>
     </main>
   </body>

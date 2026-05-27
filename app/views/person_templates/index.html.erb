@@ -1,41 +1,40 @@
 <h1>🎂 Birthday Tracker</h1>
 
-<%# Display 1: Upcoming Birthdays in Next 30 Days %>
+<%# Display 1: Upcoming Birthdays %>
 <h2>🎉 Upcoming Birthdays</h2>
 <article>
   <% upcoming = @list_of_people.select { |p| (p.next_birthday - Date.today).to_i <= 30 } %>
   <% if upcoming.empty? %>
-    <p>No upcoming birthdays in the next 30 days!</p>
+    <p style="color: var(--pico-muted-color);">🎈 No upcoming birthdays in the next 30 days — enjoy the break!</p>
   <% else %>
-    <ul>
-      <% upcoming.each do |a_person| %>
-        <% days_until = (a_person.next_birthday - Date.today).to_i %>
-        <li>
-          <a href="/people/<%= a_person.id %>">
-            <%= a_person.name %> — <%= a_person.birthday.strftime("%B %d") %>
-          </a>
-          <% if days_until == 0 %>
-            🎉 <strong>Today!</strong>
-          <% else %>
-            ⏰ <strong>in <%= days_until %> days</strong>
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
+    <% upcoming.each do |a_person| %>
+      <% days_until = (a_person.next_birthday - Date.today).to_i %>
+      <div class="birthday-card">
+        <a href="/people/<%= a_person.id %>">
+          <%= a_person.name %>
+          <span class="person-meta"> — <%= a_person.birthday.strftime("%B %d") %></span>
+        </a>
+        <% if days_until == 0 %>
+          <span class="days-badge today">🎉 Today!</span>
+        <% else %>
+          <span class="days-badge">⏰ <%= days_until %> days</span>
+        <% end %>
+      </div>
+    <% end %>
   <% end %>
 </article>
 
 <hr>
 
-<%# Display 2: All People with Sort Options %>
+<%# Display 2: All People %>
 <h2>👥 All People</h2>
 
 <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
-  <a href="/people?sort=date" role="button" <%= "class='outline'" if params[:sort] != "date" && params[:sort] != "age" || params[:sort] == "date" %>>
-    Sort by Date (Jan–Dec)
+  <a href="/people?sort=date" role="button" <%= "class='outline'" if params[:sort] == "date" || params[:sort].blank? ? false : true %>>
+    📅 Sort by Date (Jan–Dec)
   </a>
-  <a href="/people?sort=age" role="button" <%= "class='outline'" if params[:sort] != "age" %>>
-    Sort by Age
+  <a href="/people?sort=age" role="button" class="<%= params[:sort] == 'age' ? '' : 'outline' %>">
+    🎂 Sort by Age
   </a>
 </div>
 
@@ -47,22 +46,30 @@
       @list_of_people.sort_by { |p| [p.birthday.month, p.birthday.day] }
     end
   %>
-  <ul>
-    <% all_sorted.each do |a_person| %>
-      <% days_until = (a_person.next_birthday - Date.today).to_i %>
-      <li>
-        <a href="/people/<%= a_person.id %>">
-          <%= a_person.name %> — <%= a_person.birthday.strftime("%B %d, %Y") %>
-          <% if a_person.relationship.present? %> · <%= a_person.relationship %><% end %>
-        </a>
-        <% if days_until == 0 %>
-          🎉 <strong>Today!</strong>
-        <% elsif days_until <= 30 %>
-          ⏰ <strong>in <%= days_until %> days</strong>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
+  <% if all_sorted.empty? %>
+    <p style="color: var(--pico-muted-color);">No people added yet. <a href="/people/new">Add someone!</a></p>
+  <% else %>
+    <ul class="people-list">
+      <% all_sorted.each do |a_person| %>
+        <% days_until = (a_person.next_birthday - Date.today).to_i %>
+        <li>
+          <div>
+            <a href="/people/<%= a_person.id %>"><strong><%= a_person.name %></strong></a>
+            <br>
+            <span class="person-meta">
+              <%= a_person.birthday.strftime("%B %d, %Y") %>
+              <% if a_person.relationship.present? %> · <%= a_person.relationship %><% end %>
+            </span>
+          </div>
+          <% if days_until == 0 %>
+            <span class="days-badge today">🎉 Today!</span>
+          <% elsif days_until <= 30 %>
+            <span class="days-badge">⏰ <%= days_until %> days</span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
 </article>
 
 <hr>
