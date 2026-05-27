@@ -21,7 +21,7 @@ class GiftsGivensController < ApplicationController
     the_gifts_given = GiftsGiven.new
     the_gifts_given.gift = params.fetch("query_gift")
     the_gifts_given.person_id = params[:person_id]
-    the_gifts_given.liked = params.fetch("query_liked")
+    the_gifts_given.liked = params.fetch("query_liked", false)
     the_gifts_given.given_on = params.fetch("query_given_on")
     the_gifts_given.notes = params.fetch("query_notes")
     the_gifts_given.occasion = params.fetch("query_occasion")
@@ -40,7 +40,7 @@ class GiftsGivensController < ApplicationController
     the_gifts_given = GiftsGiven.where({ :id => the_id }).at(0)
     the_gifts_given.person_id = params[:person_id]
     the_gifts_given.gift = params.fetch("query_gift")
-    the_gifts_given.liked = params.fetch("query_liked")
+    the_gifts_given.liked = params.fetch("query_liked", false)
     the_gifts_given.given_on = params.fetch("query_given_on")
     the_gifts_given.notes = params.fetch("query_notes")
     the_gifts_given.occasion = params.fetch("query_occasion")

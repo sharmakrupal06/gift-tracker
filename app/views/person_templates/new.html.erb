@@ -1,0 +1,20 @@
+<h1>Add a New Person</h1>
+
+<form action="/people" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+  <div>
+    <label for="name_box">Name</label>
+    <input type="text" id="name_box" name="query_name">
+  </div>
+
+  <div>
+    <label for="birthday_box">Birthday</label>
+    <input type="date" id="birthday_box" name="query_birthday">
+  </div>
+
+  <button type="submit">Create Person</button>
+</form>
+
+<br>
+<a href="/people">← Back to All People</a>

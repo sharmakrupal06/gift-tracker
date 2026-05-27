@@ -1,38 +1,12 @@
 <h1>List of all people</h1>
 
-<hr>
-
-<article>
-  <header>
-    <h2>Add a new person</h2>
-  </header>
-
-  <form action="/people" method="post">
-    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-
-    <div>
-      <label for="name_box">Name</label>
-      <input type="text" id="name_box" name="query_name">
-    </div>
-
-    <div>
-      <label for="birthday_box">Birthday</label>
-      <input type="date" id="birthday_box" name="query_birthday">
-    </div>
-
-    <button type="submit">Create person</button>
-  </form>
-</article>
-
-<hr>
-
 <article>
   <ul>
     <% @list_of_people.each do |a_person| %>
-      <li>
+    <li>
         <a href="/people/<%= a_person.id %>">
-          <%= a_person.name %> — <%= a_person.birthday.strftime("%B %d") %>
-        </a>
+        <%= a_person.name %> 🎂 <%= a_person.birthday.strftime("%B %d") %>
+       </a>
       </li>
     <% end %>
   </ul>

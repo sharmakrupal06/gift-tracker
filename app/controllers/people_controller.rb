@@ -17,6 +17,10 @@ class PeopleController < ApplicationController
     render({ :template => "person_templates/show" })
   end
 
+  def new
+    render({ :template => "person_templates/new" })
+  end
+
   def create
     the_person = Person.new
     the_person.name = params.fetch("query_name")
